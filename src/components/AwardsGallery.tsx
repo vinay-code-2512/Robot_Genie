@@ -36,7 +36,7 @@ const gallery: AwardItem[] = [
     src: "/awards/award-2.jpg",
     title: "Top Placement Institute",
     org: "India Skills Summit · 2023",
-    alt: "Certificate naming FutureAcademy as Top Placement Institute",
+    alt: "Certificate naming Robot Genie as Top Placement Institute",
   },
   {
     id: "3",

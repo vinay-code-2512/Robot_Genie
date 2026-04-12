@@ -53,7 +53,7 @@ export default function FinalCTA() {
             transition={{ ...transitionRevealShort, delay: staggerDelay(1, 0.05) }}
             className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--neon-blue)]"
           >
-            FutureAcademy
+            Robot Genie
           </motion.p>
           <motion.h2
             id="final-cta-heading"

@@ -95,7 +95,7 @@ body {
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.5), 0 0 48px rgba(0, 240, 255, 0.45), 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.6), 0 0 60px rgba(0, 240, 255, 0.5), 0 0 100px rgba(0, 240, 255, 0.25), 0 8px 32px rgba(0, 0, 0, 0.4);
   transform: translateY(-2px);
 }
 
@@ -113,8 +113,8 @@ body {
 }
 
 .btn-secondary:hover {
-  border-color: rgba(181, 0, 255, 0.5);
-  box-shadow: 0 0 0 1px rgba(181, 0, 255, 0.25), 0 0 32px rgba(181, 0, 255, 0.2), 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: rgba(181, 0, 255, 0.6);
+  box-shadow: 0 0 0 1px rgba(181, 0, 255, 0.35), 0 0 48px rgba(181, 0, 255, 0.3), 0 0 80px rgba(181, 0, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.3);
   transform: translateY(-2px);
 }
 
@@ -190,4 +190,112 @@ body {
 
 .animate-float-glow {
   animation: float-glow 6s ease-in-out infinite;
+}
+
+/* ===== PREMIUM ANIMATION UTILITIES ===== */
+
+/* Scroll reveal base - optimized for performance */
+.animate-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Button glow expansion */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.btn-glow-primary::after {
+  background: radial-gradient(circle at center, rgba(0, 240, 255, 0.3) 0%, transparent 70%);
+}
+
+.btn-glow-secondary::after {
+  background: radial-gradient(circle at center, rgba(181, 0, 255, 0.25) 0%, transparent 70%);
+}
+
+.btn-glow:hover::after {
+  opacity: 1;
+}
+
+/* Card premium hover lift */
+.card-hover-lift {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), 
+              box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.35s ease;
+  will-change: transform;
+  transform: translateY(0);
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-6px);
+}
+
+/* Image zoom on hover - GPU optimized */
+.img-zoom-container {
+  overflow: hidden;
+}
+
+.img-zoom {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.img-zoom:hover {
+  transform: scale(1.05);
+}
+
+/* Premium subtle shimmer for hover states */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer-hover:hover {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 0.8s ease;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-reveal,
+  .btn-glow::after,
+  .card-hover-lift,
+  .img-zoom {
+    transition: none;
+    animation: none;
+  }
+  
+  .animate-reveal {
+    opacity: 1;
+    transform: none;
+  }
+  
+  .card-hover-lift:hover {
+    transform: none;
+  }
+  
+  .img-zoom:hover {
+    transform: none;
+  }
 }

@@ -8,7 +8,7 @@ import MotionProvider from "@/components/MotionProvider";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "FutureAcademy",
+  title: "Robot Genie",
   description: "Futuristic online learning platform",
 };
 

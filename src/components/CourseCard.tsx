@@ -18,11 +18,12 @@ function CourseCardInner({ title, description, duration, career }: CourseCardPro
       whileHover={{
         y: -8,
         scale: 1.02,
+        boxShadow: "0 12px 48px rgba(0, 240, 255, 0.2), 0 0 80px rgba(181, 0, 255, 0.12), 0 24px 64px rgba(0, 0, 0, 0.4)",
         transition: transitionRevealShort,
       }}
-      whileTap={{ scale: 0.99 }}
+      whileTap={{ scale: 0.98 }}
       transition={transitionTap}
-      className="glass-panel-hover p-8 rounded-2xl flex flex-col h-full border border-white/[0.06] hover:border-[var(--neon-blue)]/40 shadow-[0_4px_24px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_40px_rgba(0,240,255,0.15),0_0_80px_rgba(181,0,255,0.08)] transition-all duration-350 group will-change-transform"
+      className="glass-panel-hover p-8 rounded-2xl flex flex-col h-full border border-white/[0.06] hover:border-[var(--neon-blue)]/50 shadow-[0_4px_24px_rgba(0,0,0,0.25)] transition-all duration-350 group will-change-transform"
     >
       <div className="relative mb-5">
         <h3 className="text-2xl font-bold text-white group-hover:gradient-text transition-all duration-300">

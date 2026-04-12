@@ -24,7 +24,7 @@ export default function Navbar() {
               <div className="absolute -inset-1 bg-[var(--neon-blue)]/20 rounded-full blur-md group-hover:bg-[var(--neon-purple)]/20 transition-colors duration-300" />
             </div>
             <span className="font-bold text-2xl tracking-tighter text-white">
-              Future<span className="gradient-text">Academy</span>
+              Robot<span className="gradient-text">Genie</span>
             </span>
           </Link>
         </motion.div>

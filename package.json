@@ -14,9 +14,9 @@
     "@tsparticles/slim": "^3.9.1",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.8.0",
-    "next": "16.2.3",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-hook-form": "^7.72.1",
     "tsparticles": "^3.9.1"
   },
