@@ -18,11 +18,73 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* GPU optimization for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduce animations on mobile for performance */
+@media (max-width: 767px) {
+  .hero-gradient-bg {
+    animation: none;
+    opacity: 0.8;
+  }
+  
+  .hero-particle {
+    animation-duration: 30s !important;
+  }
+  
+  .floating-orb {
+    animation-duration: 12s !important;
+    opacity: 0.25;
+  }
+  
+  .animate-float-glow {
+    animation-duration: 10s !important;
+  }
+  
+  .animate-scroll {
+    animation-duration: 35s !important;
+  }
+  
+  .glass-panel,
+  .glass-panel-hover {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Touch-friendly tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scroll margin for anchor links */
+[id] {
+  scroll-margin-top: 80px;
 }
 
 /* ===== COMPONENT LAYER (must be first for @apply to work) ===== */
@@ -401,16 +463,32 @@ body {
 }
 
 /* ===== BUTTON STYLES ===== */
-.btn-primary {
+.btn-primary,
+.btn-secondary {
   position: relative;
-  padding: 1rem 2rem;
+  min-height: 52px;
+  padding: 0.875rem 1.75rem;
   border-radius: 9999px;
   font-weight: 700;
+  font-size: 1rem;
   overflow: hidden;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 640px) {
+  .btn-primary,
+  .btn-secondary {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+.btn-primary {
   background: linear-gradient(135deg, var(--neon-blue), #00d4e6);
   color: #05050f;
   box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.35), 0 0 36px rgba(0, 240, 255, 0.25), 0 4px 16px rgba(0, 0, 0, 0.3);
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary:hover {
@@ -419,20 +497,15 @@ body {
 }
 
 .btn-primary:active {
-  transform: scale(0.98);
+  transform: scale(0.96) translateY(0);
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.4), 0 0 24px rgba(0, 240, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .btn-secondary {
-  position: relative;
-  padding: 1rem 2rem;
-  border-radius: 9999px;
-  font-weight: 700;
-  overflow: hidden;
   background: transparent;
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 4px 16px rgba(0, 0, 0, 0.2);
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
@@ -442,7 +515,18 @@ body {
 }
 
 .btn-secondary:active {
-  transform: scale(0.98);
+  transform: scale(0.96) translateY(0);
+  border-color: rgba(181, 0, 255, 0.4);
+  box-shadow: 0 0 0 1px rgba(181, 0, 255, 0.3), 0 0 24px rgba(181, 0, 255, 0.2), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile: slightly larger tap target */
+@media (max-width: 639px) {
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -479,16 +563,30 @@ body {
 }
 
 .section-spacing {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
   position: relative;
   z-index: 10;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
+  .section-spacing {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
   .section-spacing {
     padding-top: 7rem;
     padding-bottom: 7rem;
+  }
+}
+
+/* Touch-friendly spacing for cards */
+@media (max-width: 639px) {
+  .touch-spacing > * + * {
+    margin-top: 1rem;
   }
 }
 
@@ -570,17 +668,38 @@ body {
 }
 
 .card-hover-lift {
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), 
-              box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.3s ease,
-              background-color 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), 
+              box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.25s ease,
+              background-color 0.25s ease;
   will-change: transform;
   transform: translateY(0);
+  touch-action: manipulation;
 }
 
 .card-hover-lift:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 240, 255, 0.08), 0 0 80px rgba(181, 0, 255, 0.04);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 30px rgba(0, 240, 255, 0.06), 0 0 60px rgba(181, 0, 255, 0.03);
+}
+
+.card-hover-lift:active {
+  transform: scale(0.98);
+}
+
+/* Mobile: simpler hover effect for performance */
+@media (max-width: 639px) {
+  .card-hover-lift {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .card-hover-lift:hover {
+    transform: none;
+    border-color: rgba(0, 240, 255, 0.2);
+  }
+  
+  .card-hover-lift:active {
+    transform: scale(0.98);
+  }
 }
 
 .img-zoom-container {

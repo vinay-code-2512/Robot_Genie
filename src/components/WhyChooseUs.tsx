@@ -1,13 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Layers, Bot, HeadphonesIcon, GraduationCap } from "lucide-react";
+import { Layers, Bot, HeadphonesIcon, GraduationCap, ArrowRight, MessageCircle } from "lucide-react";
 import {
   hiddenReveal,
   hiddenRevealUp,
   staggerDelay,
   transitionReveal,
   transitionRevealShort,
+  transitionTap,
   viewportReveal,
   visibleReveal,
 } from "@/lib/motion";
@@ -17,32 +18,31 @@ const reasons = [
     icon: Layers,
     title: "Real Projects",
     description:
-      "Ship artifacts recruiters can open: briefs, dashboards, models, and retrospectives—reviewed like a manager would, not like a classroom exercise.",
+      "Build portfolio-ready work that impresses recruiters: briefs, dashboards, and models reviewed by industry experts.",
   },
   {
     icon: Bot,
-    title: "AI Tools",
+    title: "AI Tools Training",
     description:
-      "Practice with modern copilots and analytics assistants responsibly—so you accelerate delivery without cutting corners on quality or compliance.",
+      "Master modern AI assistants and analytics tools to accelerate your work without compromising quality.",
   },
   {
     icon: HeadphonesIcon,
     title: "Interview Support",
     description:
-      "Structured mock panels, salary discussion coaching, and feedback loops until your answers are concise, evidence-backed, and role-aligned.",
+      "Mock interviews, salary coaching, and feedback until you&apos;re confident and role-ready.",
   },
   {
     icon: GraduationCap,
-    title: "Corporate Trainers",
+    title: "Expert Trainers",
     description:
-      "Mentors from services, BFSI, and product environments who translate syllabus topics into what interviewers actually probe on the whiteboard.",
+      "Learn from mentors with real industry experience who know what interviewers actually want.",
   },
 ];
 
 export default function WhyChooseUs() {
   return (
     <section id="about" className="section-spacing">
-      {/* Ambient glow */}
       <div className="absolute top-0 right-[10%] w-[500px] h-[500px] bg-[var(--neon-purple)]/6 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8">
@@ -52,7 +52,7 @@ export default function WhyChooseUs() {
             whileInView={visibleReveal}
             viewport={viewportReveal}
             transition={transitionReveal}
-            className="heading-lg text-white mb-6"
+            className="heading-lg text-white mb-4"
           >
             Why Choose <span className="gradient-text">Us</span>
           </motion.h2>
@@ -63,7 +63,7 @@ export default function WhyChooseUs() {
             transition={{ ...transitionRevealShort, delay: staggerDelay(1, 0.06) }}
             className="text-body text-gray-300 max-w-2xl mx-auto"
           >
-            An outcomes-first model: measurable skills, visible work, and interview readiness you can stress-test before you ever submit an application.
+            Skills that get you hired, not just certificates
           </motion.p>
         </div>
 
@@ -92,6 +92,37 @@ export default function WhyChooseUs() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewportReveal}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-16 flex flex-col sm:flex-row gap-4 justify-center items-center"
+        >
+          <motion.a
+            href="#contact"
+            whileHover={{ y: -3, scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+            transition={transitionTap}
+            className="btn-primary flex items-center justify-center gap-2.5 px-8 py-4 w-full sm:w-auto"
+          >
+            Start Your Journey
+            <ArrowRight className="w-5 h-5" />
+          </motion.a>
+          <motion.a
+            href="https://wa.me/919999999999"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ y: -3, scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+            transition={transitionTap}
+            className="btn-secondary flex items-center justify-center gap-2.5 px-8 py-4 w-full sm:w-auto"
+          >
+            <MessageCircle className="w-5 h-5 text-green-400" />
+            Chat with Us
+          </motion.a>
+        </motion.div>
       </div>
     </section>
   );

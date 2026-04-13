@@ -88,37 +88,34 @@ const SLIDE_EASE: [number, number, number, number] = [0.45, 0, 0.55, 1];
 /** Stable reference — avoids recreating variants each render */
 const slideVariants = {
   enter: (dir: number) => ({
-    x: dir > 0 ? 260 : -260,
+    x: dir > 0 ? "100%" : "-100%",
     opacity: 0,
-    scale: 0.94,
   }),
   center: {
     x: 0,
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.36, ease: SLIDE_EASE },
+    transition: { duration: 0.28, ease: SLIDE_EASE },
   },
   exit: (dir: number) => ({
-    x: dir > 0 ? -260 : 260,
+    x: dir > 0 ? "-100%" : "100%",
     opacity: 0,
-    scale: 0.94,
   }),
 };
 
 const TestimonialSlideBody = memo(function TestimonialSlideBody({ t }: { t: Testimonial }) {
   return (
     <>
-      <Quote className="w-10 h-10 text-[var(--neon-blue)]/25 mb-6" />
+      <Quote className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--neon-blue)]/25 mb-4 sm:mb-6" />
 
-      <p className="text-lg md:text-xl text-gray-200 leading-relaxed mb-10 italic max-w-3xl">
+      <p className="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed mb-6 sm:mb-10 italic max-w-3xl line-clamp-6 sm:line-clamp-none">
         &ldquo;{t.text}&rdquo;
       </p>
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <div className="relative">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="relative flex-shrink-0">
             <div className="absolute -inset-[2px] rounded-full bg-gradient-to-tr from-[var(--neon-blue)] to-[var(--neon-purple)] opacity-50 blur-[3px]" />
-            <div className="relative h-14 w-14 overflow-hidden rounded-full border-2 border-[#0a0a1a]">
+            <div className="relative h-12 w-12 sm:h-14 sm:w-14 overflow-hidden rounded-full border-2 border-[#0a0a1a]">
               <Image
                 src={t.image}
                 alt={t.name}
@@ -132,27 +129,27 @@ const TestimonialSlideBody = memo(function TestimonialSlideBody({ t }: { t: Test
               />
             </div>
           </div>
-          <div>
-            <p className="text-lg font-bold text-white">{t.name}</p>
-            <p className="text-sm text-gray-400">{t.role}</p>
+          <div className="min-w-0">
+            <p className="text-base sm:text-lg font-bold text-white truncate">{t.name}</p>
+            <p className="text-xs sm:text-sm text-gray-400 truncate">{t.role}</p>
             <div className="mt-1 flex items-center gap-1.5">
-              <Building2 className="h-3.5 w-3.5 text-[var(--neon-purple)]" />
+              <Building2 className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[var(--neon-purple)]" />
               <span className="text-xs font-semibold tracking-wide text-[var(--neon-purple)]">{t.company}</span>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-4 rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-3">
+        <div className="flex items-center gap-3 sm:gap-4 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 sm:px-5 py-2.5 sm:py-3 flex-shrink-0">
           <div className="text-center">
-            <p className="mb-0.5 text-[10px] uppercase tracking-wider text-gray-500">Before</p>
-            <p className="text-sm font-semibold text-gray-400 line-through decoration-red-500/50">{t.beforeSalary}</p>
+            <p className="mb-0.5 text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">Before</p>
+            <p className="text-xs sm:text-sm font-semibold text-gray-400 line-through decoration-red-500/50">{t.beforeSalary}</p>
           </div>
           <div className="flex items-center">
-            <TrendingUp className="h-5 w-5 text-emerald-400" />
+            <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-400" />
           </div>
           <div className="text-center">
-            <p className="mb-0.5 text-[10px] uppercase tracking-wider text-gray-500">After</p>
-            <p className="text-sm font-bold text-emerald-400">{t.afterSalary}</p>
+            <p className="mb-0.5 text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">After</p>
+            <p className="text-xs sm:text-sm font-bold text-emerald-400">{t.afterSalary}</p>
           </div>
         </div>
       </div>

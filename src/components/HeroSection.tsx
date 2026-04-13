@@ -14,11 +14,11 @@ const trustBadges = [
   { value: "300+", label: "Hiring Partners" },
 ];
 
-const particles = Array.from({ length: 15 }, (_, i) => ({
+const particles = Array.from({ length: 8 }, (_, i) => ({
   id: i,
   left: `${Math.random() * 100}%`,
   delay: `${Math.random() * 20}s`,
-  size: Math.random() > 0.5 ? "w-[3px] h-[3px]" : "w-[2px] h-[2px]",
+  size: "w-[2px] h-[2px]",
 }));
 
 const badgeContainer = {
@@ -35,7 +35,7 @@ const badgeItem = {
     opacity: 1, 
     y: 0, 
     scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }
   },
 };
 
@@ -77,12 +77,12 @@ export default function HeroSection() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] text-white mb-8"
           >
-            Transform Your{" "}
+            India's Most Advanced{" "}
             <span className="gradient-text relative">
-              Career
+              AI
               <span className="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-[var(--neon-blue)] via-[var(--neon-purple)] to-transparent opacity-60 rounded-full" />
             </span>{" "}
-            With AI
+            Powered Career Institute
           </motion.h1>
 
           <motion.p
@@ -154,12 +154,13 @@ export default function HeroSection() {
         initial={{ opacity: 0, scale: 0.85 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4, delay: 0.8 }}
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-[0_0_32px_rgba(34,197,94,0.5)] transition-all duration-300"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-2 px-4 sm:px-5 py-3 sm:py-3.5 bg-green-500 hover:bg-green-400 rounded-full shadow-[0_4px_20px_rgba(34,197,94,0.4),0_0_40px_rgba(34,197,94,0.2)] hover:shadow-[0_8px_32px_rgba(34,197,94,0.5),0_0_60px_rgba(34,197,94,0.3)] transition-all duration-200 active:scale-95"
         aria-label="Chat on WhatsApp"
       >
-        <MessageCircle className="w-7 h-7 text-white" />
+        <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        <span className="text-white font-semibold text-sm hidden sm:inline">Chat Now</span>
       </motion.a>
     </section>
   );

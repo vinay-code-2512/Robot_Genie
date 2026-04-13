@@ -112,8 +112,8 @@ export default function FAQSection() {
                       <motion.span
                         aria-hidden
                         animate={{ rotate: isOpen ? 180 : 0 }}
-                        transition={{ type: "spring", stiffness: 320, damping: 26 }}
-                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-gray-300 group-hover:border-[var(--neon-blue)]/30 group-hover:text-[var(--neon-blue)] transition-all duration-300"
+                        transition={{ duration: 0.2 }}
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-gray-300 group-hover:border-[var(--neon-blue)]/30 group-hover:text-[var(--neon-blue)] transition-all duration-200"
                       >
                         <ChevronDown className="h-5 w-5" />
                       </motion.span>
@@ -130,20 +130,14 @@ export default function FAQSection() {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{
-                          height: { duration: 0.38, ease: [0.4, 0, 0.2, 1] },
-                          opacity: { duration: 0.22, ease: "easeOut" },
+                          height: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
+                          opacity: { duration: 0.15 },
                         }}
                         className="overflow-hidden"
                       >
-                        <motion.p
-                          initial={{ y: -6 }}
-                          animate={{ y: 0 }}
-                          exit={{ y: -4 }}
-                          transition={{ duration: 0.25, ease: "easeOut" }}
-                          className="pb-5 pt-1 pl-2 pr-14 text-gray-400 leading-relaxed text-[15px]"
-                        >
+                        <p className="pb-5 pt-1 pl-2 pr-14 text-gray-400 leading-relaxed text-sm sm:text-[15px]">
                           {faq.answer}
-                        </motion.p>
+                        </p>
                       </motion.div>
                     )}
                   </AnimatePresence>
