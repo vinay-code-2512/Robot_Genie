@@ -159,7 +159,7 @@ export default function PlacementStats() {
             Start Your Placement Journey
             <ArrowRight className="w-5 h-5" />
           </motion.a>
-          <motion.a
+          {/* <motion.a
             href="https://wa.me/919999999999"
             target="_blank"
             rel="noopener noreferrer"
@@ -170,7 +170,7 @@ export default function PlacementStats() {
           >
             <MessageCircle className="w-5 h-5 text-green-400" />
             Check Placements
-          </motion.a>
+          </motion.a> */}
         </motion.div>
 
         <div className="flex items-center gap-4 mb-8">

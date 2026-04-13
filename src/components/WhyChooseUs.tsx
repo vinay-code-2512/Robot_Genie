@@ -110,7 +110,7 @@ export default function WhyChooseUs() {
             Start Your Journey
             <ArrowRight className="w-5 h-5" />
           </motion.a>
-          <motion.a
+          {/* <motion.a
             href="https://wa.me/919999999999"
             target="_blank"
             rel="noopener noreferrer"
@@ -121,7 +121,7 @@ export default function WhyChooseUs() {
           >
             <MessageCircle className="w-5 h-5 text-green-400" />
             Chat with Us
-          </motion.a>
+          </motion.a> */}
         </motion.div>
       </div>
     </section>

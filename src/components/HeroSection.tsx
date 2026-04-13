@@ -91,10 +91,16 @@ export default function HeroSection() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
             className="text-lg sm:text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
           >
-            Master <span className="text-[var(--neon-blue)]">Data Science</span>,{" "}
-            <span className="text-[var(--neon-purple)]">Digital Marketing</span> &{" "}
-            <span className="text-white font-medium">Analytics</span> with industry experts
-          </motion.p>
+            <span className="text-[var(--neon-blue)]">Digital Marketing</span> •{" "}
+  <span className="text-[var(--neon-purple)]">Data Science</span> •{" "}
+  <span className="text-white">Finance</span> •{" "}
+  <span className="text-white">HR</span> •{" "}
+  <span className="text-white font-medium">AI Skills</span>
+  <br />
+  <span className="text-gray-300">
+    Industry Ready Training With Real Placement Support
+  </span>
+</motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

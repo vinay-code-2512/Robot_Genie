@@ -139,7 +139,7 @@ export default function CourseGrid() {
             Get Course Details
             <ArrowRight className="w-5 h-5" />
           </motion.a>
-          <motion.a
+          {/* <motion.a
             href="https://wa.me/919999999999"
             target="_blank"
             rel="noopener noreferrer"
@@ -150,7 +150,7 @@ export default function CourseGrid() {
           >
             <MessageCircle className="w-5 h-5 text-green-400" />
             Ask on WhatsApp
-          </motion.a>
+          </motion.a> */}
         </motion.div>
       </div>
     </section>

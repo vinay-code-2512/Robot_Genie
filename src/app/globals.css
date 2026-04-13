@@ -7,6 +7,9 @@
   --neon-purple: #b500ff;
   --neon-blue-dim: rgba(0, 240, 255, 0.15);
   --neon-purple-dim: rgba(181, 0, 255, 0.15);
+  --cursor-size: 12px;
+  --cursor-color: #000000;
+  --cursor-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.9), 0 0 16px 4px rgba(255, 255, 255, 0.4);
 }
 
 @theme inline {
@@ -23,6 +26,19 @@
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
+}
+
+/* 3D perspective utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-500 {
+  perspective: 500px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
 }
 
 /* Reduce animations on mobile for performance */
@@ -64,6 +80,59 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  cursor: none;
+}
+
+/* Custom cursor */
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-2px, -2px);
+  transition: transform 0.05s ease-out;
+}
+
+.custom-cursor.hovering {
+  transform: translate(-2px, -2px) scale(1.2);
+}
+
+.custom-cursor.hovering path {
+  fill: var(--neon-blue);
+}
+
+/* Circular glow behind cursor */
+.cursor-glow {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 20%, rgba(255, 255, 255, 0.2) 50%, transparent 80%);
+  pointer-events: none;
+  z-index: 99998;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  mix-blend-mode: screen;
+  filter: blur(8px);
+}
+
+.custom-cursor.hovering ~ .cursor-glow,
+.custom-cursor.hovering + .cursor-glow {
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 20%, rgba(255, 255, 255, 0.4) 50%, transparent 80%);
+}
+
+/* Hide default cursor on interactive elements too */
+a, button, [role="button"], input, textarea, select, label, [onClick] {
+  cursor: none;
+}
+
+/* Mobile: use default cursor */
+@media (pointer: coarse) {
+  body, a, button, [role="button"], input, textarea, select, label, [onClick] {
+    cursor: auto;
+  }
+  
+  .custom-cursor {
+    display: none;
+  }
 }
 
 /* Smooth scrolling */

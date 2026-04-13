@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MotionProvider from "@/components/MotionProvider";
+import CustomCursor from "@/components/CustomCursor";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className={`${inter.variable} antialiased selection:bg-[var(--neon-blue)] selection:text-black min-h-screen flex flex-col`}>
+        <CustomCursor />
         <MotionProvider>
           <Navbar />
           <main className="flex-grow pt-20">
