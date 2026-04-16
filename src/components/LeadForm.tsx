@@ -16,6 +16,7 @@ import {
 
 interface LeadFormData {
   name: string;
+  email: string;
   phone: string;
   course: string;
 }
@@ -56,7 +57,7 @@ export default function LeadForm() {
     reset,
   } = useForm<LeadFormData>({
     mode: "onTouched",
-    defaultValues: { name: "", phone: "", course: "" },
+    defaultValues: { name: "", email: "", phone: "", course: "" },
   });
 
   const onSubmit = (data: LeadFormData) => {
@@ -130,6 +131,35 @@ export default function LeadForm() {
             {errors.name && (
               <p id="lead-name-error" className="text-red-400 text-sm mt-1.5" role="alert">
                 {errors.name.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="lead-email" className="block text-sm font-medium text-gray-300 mb-2">
+              Email
+            </label>
+            <input
+              id="lead-email"
+              type="email"
+              autoComplete="email"
+              enterKeyHint="next"
+              inputMode="email"
+              aria-invalid={errors.email ? "true" : "false"}
+              aria-describedby={errors.email ? "lead-email-error" : undefined}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Please enter a valid email address",
+                },
+              })}
+              className={inputClassName}
+              placeholder="your@email.com"
+            />
+            {errors.email && (
+              <p id="lead-email-error" className="text-red-400 text-sm mt-1.5" role="alert">
+                {errors.email.message}
               </p>
             )}
           </div>
