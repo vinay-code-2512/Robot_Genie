@@ -14,7 +14,7 @@ export default function Navbar() {
       initial={hiddenReveal}
       animate={visibleReveal}
       transition={transitionRevealShort}
-      className="fixed top-0 left-0 w-full z-50 glass-panel border-b border-white/[0.06] shadow-[0_4px_32px_rgba(0,0,0,0.4)]"
+      className="fixed top-0 left-0 w-full z-50 border border-transparent bg-[#05050f]/95"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-8 h-20 flex items-center justify-between">
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} transition={transitionTap}>
