@@ -1,10 +1,12 @@
 'use client';
 
 import { Suspense, useLayoutEffect, useRef, useEffect, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Environment, Center, Html, Reflector } from '@react-three/drei';
 import * as THREE from 'three';
 import { Group } from 'three';
+
+const mousePosition = { x: 0, y: 0 };
 
 const whiteMetallicMaterial = new THREE.MeshStandardMaterial({
   color: '#ffffff',
@@ -61,7 +63,10 @@ function TeslaRobot() {
   const scrollRef = useRef(0);
   const smoothedScrollRef = useRef(0);
   const headSmoothedScrollRef = useRef(0);
+  const mouseTargetRef = useRef({ x: 0, y: 0 });
+  const mouseSmoothRef = useRef({ x: 0, y: 0 });
   const { scene } = useGLTF('/models/tesla-robot.glb');
+  const { camera, size } = useThree();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,6 +76,15 @@ function TeslaRobot() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseTargetRef.current.x = (event.clientX / size.width) * 2 - 1;
+      mouseTargetRef.current.y = -(event.clientY / size.height) * 2 + 1;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [size]);
 
   useLayoutEffect(() => {
     scene.traverse((child) => {
@@ -112,9 +126,9 @@ function TeslaRobot() {
       const bob = Math.sin(t * 0.7) * 0.015;
       
       const targetY = -1 + breathe + bob;
-      const targetRotY = sway + scrollProgress * 0.5;
+      const targetRotY = sway + scrollProgress * 0.5 + mouseSmoothRef.current.x * 0.15;
       const targetZ = Math.pow(scrollProgress, 2) * 1.2;
-      const targetRotX = scrollProgress * 0.15;
+      const targetRotX = scrollProgress * 0.15 - mouseSmoothRef.current.y * 0.05;
       const targetScale = 1 + scrollProgress * 0.1;
       
       const easeFactor = 1 - Math.pow(0.0003, delta);
@@ -128,8 +142,15 @@ function TeslaRobot() {
       const headTargetY = headScrollProgress * 0.3 + sway * 0.5;
       const headTargetX = headScrollProgress * 0.12 + breathe;
       if (headRef.current) {
-        headRef.current.rotation.y = THREE.MathUtils.lerp(headRef.current.rotation.y, headTargetY, easeFactor * 0.4);
-        headRef.current.rotation.x = THREE.MathUtils.lerp(headRef.current.rotation.x, headTargetX, easeFactor * 0.4);
+        const mouseLerpFactor = 1 - Math.pow(0.0001, delta);
+        mouseSmoothRef.current.x += (mouseTargetRef.current.x - mouseSmoothRef.current.x) * mouseLerpFactor;
+        mouseSmoothRef.current.y += (mouseTargetRef.current.y - mouseSmoothRef.current.y) * mouseLerpFactor;
+        
+        const headRotY = headTargetY + mouseSmoothRef.current.x * 0.4;
+        const headRotX = headTargetX - mouseSmoothRef.current.y * 0.3;
+        
+        headRef.current.rotation.y = THREE.MathUtils.lerp(headRef.current.rotation.y, headRotY, easeFactor * 0.4);
+        headRef.current.rotation.x = THREE.MathUtils.lerp(headRef.current.rotation.x, headRotX, easeFactor * 0.4);
       }
       
       const pulse = 0.4 + Math.sin(t * 2) * 0.15 + Math.sin(t * 3.5) * 0.1;
@@ -329,7 +350,7 @@ function Scene() {
 
 export default function TeslaRobotScene() {
   return (
-    <div style={{ width: '100%', height: '100%', background: '#05050f' }}>
+    <div style={{ width: '100%', height: '100%', background: '#05050f', cursor: 'none' }}>
       <Canvas
         shadows="soft"
         dpr={[1, 2]}
