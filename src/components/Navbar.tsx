@@ -48,6 +48,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.04, y: -1 }}
             whileTap={{ scale: 0.97 }}
             transition={transitionTap}
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-secondary !py-3 !px-6 text-[15px]"
           >
             Enroll Now

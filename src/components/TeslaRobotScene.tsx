@@ -1,27 +1,9 @@
 'use client';
 
-import { Suspense, useLayoutEffect, useRef, useEffect, useMemo } from 'react';
+import { Suspense, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, OrbitControls, Environment, Center, Html, Reflector } from '@react-three/drei';
+import { OrbitControls, Environment, Html, Reflector } from '@react-three/drei';
 import * as THREE from 'three';
-import { Group } from 'three';
-
-const mousePosition = { x: 0, y: 0 };
-
-const whiteMetallicMaterial = new THREE.MeshStandardMaterial({
-  color: '#ffffff',
-  metalness: 0.9,
-  roughness: 0.1,
-  envMapIntensity: 1.5,
-});
-
-const blackGlossyMaterial = new THREE.MeshStandardMaterial({
-  color: '#000000',
-  metalness: 0.9,
-  roughness: 0.1,
-  emissive: '#00f0ff',
-  emissiveIntensity: 0.5,
-});
 
 function Loader({ onLoaded }: { onLoaded?: () => void }) {
   useEffect(() => {
@@ -54,115 +36,6 @@ function Loader({ onLoaded }: { onLoaded?: () => void }) {
         `}</style>
       </div>
     </Html>
-  );
-}
-
-function TeslaRobot() {
-  const groupRef = useRef<Group>(null);
-  const headRef = useRef<Group>(null);
-  const scrollRef = useRef(0);
-  const smoothedScrollRef = useRef(0);
-  const headSmoothedScrollRef = useRef(0);
-  const mouseTargetRef = useRef({ x: 0, y: 0 });
-  const mouseSmoothRef = useRef({ x: 0, y: 0 });
-  const { scene } = useGLTF('/models/tesla-robot.glb');
-  const { camera, size } = useThree();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      scrollRef.current = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      mouseTargetRef.current.x = (event.clientX / size.width) * 2 - 1;
-      mouseTargetRef.current.y = -(event.clientY / size.height) * 2 + 1;
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [size]);
-
-  useLayoutEffect(() => {
-    scene.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        const name = child.name.toLowerCase();
-        if (name.includes('head') || name.includes('face') || name.includes('visor') || name.includes('eye')) {
-          child.material = blackGlossyMaterial;
-          child.castShadow = true;
-          child.receiveShadow = true;
-        } else {
-          child.material = whiteMetallicMaterial;
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      }
-      if (child instanceof THREE.Group && child.name.toLowerCase().includes('head')) {
-        headRef.current = child;
-      }
-    });
-  }, [scene]);
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      const t = state.clock.getElapsedTime();
-      const delta = state.clock.getDelta();
-      
-      const targetScroll = scrollRef.current;
-      const lerpFactor = 1 - Math.pow(0.001, delta);
-      const slowLerpFactor = 1 - Math.pow(0.0005, delta);
-      
-      smoothedScrollRef.current += (targetScroll - smoothedScrollRef.current) * lerpFactor * 0.5;
-      headSmoothedScrollRef.current += (targetScroll - headSmoothedScrollRef.current) * slowLerpFactor * 0.3;
-      
-      const scrollProgress = smoothedScrollRef.current;
-      const headScrollProgress = headSmoothedScrollRef.current;
-      
-      const breathe = Math.sin(t * 0.5) * 0.02;
-      const sway = Math.sin(t * 0.3) * 0.03;
-      const bob = Math.sin(t * 0.7) * 0.015;
-      
-      const targetY = -1 + breathe + bob;
-      const targetRotY = sway + scrollProgress * 0.5 + mouseSmoothRef.current.x * 0.15;
-      const targetZ = Math.pow(scrollProgress, 2) * 1.2;
-      const targetRotX = scrollProgress * 0.15 - mouseSmoothRef.current.y * 0.05;
-      const targetScale = 1 + scrollProgress * 0.1;
-      
-      const easeFactor = 1 - Math.pow(0.0003, delta);
-      
-      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, easeFactor);
-      groupRef.current.position.z = THREE.MathUtils.lerp(groupRef.current.position.z, targetZ, easeFactor * 0.8);
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, easeFactor * 0.6);
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, easeFactor * 0.6);
-      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, targetScale, easeFactor * 0.5));
-      
-      const headTargetY = headScrollProgress * 0.3 + sway * 0.5;
-      const headTargetX = headScrollProgress * 0.12 + breathe;
-      if (headRef.current) {
-        const mouseLerpFactor = 1 - Math.pow(0.0001, delta);
-        mouseSmoothRef.current.x += (mouseTargetRef.current.x - mouseSmoothRef.current.x) * mouseLerpFactor;
-        mouseSmoothRef.current.y += (mouseTargetRef.current.y - mouseSmoothRef.current.y) * mouseLerpFactor;
-        
-        const headRotY = headTargetY + mouseSmoothRef.current.x * 0.4;
-        const headRotX = headTargetX - mouseSmoothRef.current.y * 0.3;
-        
-        headRef.current.rotation.y = THREE.MathUtils.lerp(headRef.current.rotation.y, headRotY, easeFactor * 0.4);
-        headRef.current.rotation.x = THREE.MathUtils.lerp(headRef.current.rotation.x, headRotX, easeFactor * 0.4);
-      }
-      
-      const pulse = 0.4 + Math.sin(t * 2) * 0.15 + Math.sin(t * 3.5) * 0.1;
-      const scrollGlow = 1 + scrollProgress * 0.5;
-      blackGlossyMaterial.emissiveIntensity = pulse * scrollGlow;
-    }
-  });
-
-  return (
-    <group ref={groupRef} position={[0, -2.5, 0]} castShadow>
-      <primitive object={scene} scale={2.6} castShadow receiveShadow />
-    </group>
   );
 }
 
@@ -341,9 +214,6 @@ function Scene() {
         dampingFactor={0.05}
       />
       <Particles />
-      <Suspense fallback={<Loader />}>
-        <TeslaRobot />
-      </Suspense>
     </>
   );
 }
